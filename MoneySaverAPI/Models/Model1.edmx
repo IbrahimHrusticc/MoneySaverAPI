@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MoneySaverModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Aktivnost">
+          <Key>
+            <PropertyRef Name="AktivnostID" />
+          </Key>
+          <Property Name="AktivnostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar(max)" />
+          <Property Name="KorisnikID" Type="int" />
+        </EntityType>
+        <EntityType Name="AutorizacijskiToken">
+          <Key>
+            <PropertyRef Name="AutorizacijskiTokenID" />
+          </Key>
+          <Property Name="AutorizacijskiTokenID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Vrijednost" Type="nvarchar(max)" />
+          <Property Name="VrijemeEvidentiranja" Type="datetime" />
+          <Property Name="IpAdresa" Type="nvarchar(max)" />
+          <Property Name="DeviceInfo" Type="nvarchar(max)" />
+          <Property Name="KorisnikID" Type="int" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="KorisnikID" />
+          </Key>
+          <Property Name="KorisnikID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KorisnickoIme" Type="nvarchar(max)" />
+          <Property Name="LozinkaSalt" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Trosak">
+          <Key>
+            <PropertyRef Name="TrosakID" />
+          </Key>
+          <Property Name="TrosakID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Datum" Type="datetime" />
+          <Property Name="Iznos" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="AktivnostID" Type="int" />
+        </EntityType>
+        <Association Name="FK__Aktivnost__Koris__3C69FB99">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
+          <End Role="Aktivnost" Type="Self.Aktivnost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="KorisnikID" />
+            </Principal>
+            <Dependent Role="Aktivnost">
+              <PropertyRef Name="KorisnikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Autorizac__Koris__398D8EEE">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
+          <End Role="AutorizacijskiToken" Type="Self.AutorizacijskiToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="KorisnikID" />
+            </Principal>
+            <Dependent Role="AutorizacijskiToken">
+              <PropertyRef Name="KorisnikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Trosak__Aktivnos__3F466844">
+          <End Role="Aktivnost" Type="Self.Aktivnost" Multiplicity="0..1" />
+          <End Role="Trosak" Type="Self.Trosak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aktivnost">
+              <PropertyRef Name="AktivnostID" />
+            </Principal>
+            <Dependent Role="Trosak">
+              <PropertyRef Name="AktivnostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MoneySaverModelStoreContainer">
+          <EntitySet Name="Aktivnost" EntityType="Self.Aktivnost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AutorizacijskiToken" EntityType="Self.AutorizacijskiToken" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trosak" EntityType="Self.Trosak" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Aktivnost__Koris__3C69FB99" Association="Self.FK__Aktivnost__Koris__3C69FB99">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Aktivnost" EntitySet="Aktivnost" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Autorizac__Koris__398D8EEE" Association="Self.FK__Autorizac__Koris__398D8EEE">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="AutorizacijskiToken" EntitySet="AutorizacijskiToken" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Trosak__Aktivnos__3F466844" Association="Self.FK__Trosak__Aktivnos__3F466844">
+            <End Role="Aktivnost" EntitySet="Aktivnost" />
+            <End Role="Trosak" EntitySet="Trosak" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MoneySaverModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Aktivnost">
+          <Key>
+            <PropertyRef Name="AktivnostID" />
+          </Key>
+          <Property Name="AktivnostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KorisnikID" Type="Int32" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.FK__Aktivnost__Koris__3C69FB99" FromRole="Aktivnost" ToRole="Korisnik" />
+          <NavigationProperty Name="Trosak" Relationship="Self.FK__Trosak__Aktivnos__3F466844" FromRole="Aktivnost" ToRole="Trosak" />
+        </EntityType>
+        <EntityType Name="AutorizacijskiToken">
+          <Key>
+            <PropertyRef Name="AutorizacijskiTokenID" />
+          </Key>
+          <Property Name="AutorizacijskiTokenID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Vrijednost" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VrijemeEvidentiranja" Type="DateTime" Precision="3" />
+          <Property Name="IpAdresa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KorisnikID" Type="Int32" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.FK__Autorizac__Koris__398D8EEE" FromRole="AutorizacijskiToken" ToRole="Korisnik" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="KorisnikID" />
+          </Key>
+          <Property Name="KorisnikID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KorisnickoIme" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LozinkaSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Aktivnost" Relationship="Self.FK__Aktivnost__Koris__3C69FB99" FromRole="Korisnik" ToRole="Aktivnost" />
+          <NavigationProperty Name="AutorizacijskiToken" Relationship="Self.FK__Autorizac__Koris__398D8EEE" FromRole="Korisnik" ToRole="AutorizacijskiToken" />
+        </EntityType>
+        <EntityType Name="Trosak">
+          <Key>
+            <PropertyRef Name="TrosakID" />
+          </Key>
+          <Property Name="TrosakID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Datum" Type="DateTime" Precision="3" />
+          <Property Name="Iznos" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="AktivnostID" Type="Int32" />
+          <NavigationProperty Name="Aktivnost" Relationship="Self.FK__Trosak__Aktivnos__3F466844" FromRole="Trosak" ToRole="Aktivnost" />
+        </EntityType>
+        <Association Name="FK__Aktivnost__Koris__3C69FB99">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
+          <End Role="Aktivnost" Type="Self.Aktivnost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="KorisnikID" />
+            </Principal>
+            <Dependent Role="Aktivnost">
+              <PropertyRef Name="KorisnikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Trosak__Aktivnos__3F466844">
+          <End Role="Aktivnost" Type="Self.Aktivnost" Multiplicity="0..1" />
+          <End Role="Trosak" Type="Self.Trosak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aktivnost">
+              <PropertyRef Name="AktivnostID" />
+            </Principal>
+            <Dependent Role="Trosak">
+              <PropertyRef Name="AktivnostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Autorizac__Koris__398D8EEE">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
+          <End Role="AutorizacijskiToken" Type="Self.AutorizacijskiToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="KorisnikID" />
+            </Principal>
+            <Dependent Role="AutorizacijskiToken">
+              <PropertyRef Name="KorisnikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MoneySaverEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Aktivnost" EntityType="Self.Aktivnost" />
+          <EntitySet Name="AutorizacijskiToken" EntityType="Self.AutorizacijskiToken" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" />
+          <EntitySet Name="Trosak" EntityType="Self.Trosak" />
+          <AssociationSet Name="FK__Aktivnost__Koris__3C69FB99" Association="Self.FK__Aktivnost__Koris__3C69FB99">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Aktivnost" EntitySet="Aktivnost" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Trosak__Aktivnos__3F466844" Association="Self.FK__Trosak__Aktivnos__3F466844">
+            <End Role="Aktivnost" EntitySet="Aktivnost" />
+            <End Role="Trosak" EntitySet="Trosak" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Autorizac__Koris__398D8EEE" Association="Self.FK__Autorizac__Koris__398D8EEE">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="AutorizacijskiToken" EntitySet="AutorizacijskiToken" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MoneySaverModelStoreContainer" CdmEntityContainer="MoneySaverEntities">
+          <EntitySetMapping Name="Aktivnost">
+            <EntityTypeMapping TypeName="MoneySaverModel.Aktivnost">
+              <MappingFragment StoreEntitySet="Aktivnost">
+                <ScalarProperty Name="AktivnostID" ColumnName="AktivnostID" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="KorisnikID" ColumnName="KorisnikID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AutorizacijskiToken">
+            <EntityTypeMapping TypeName="MoneySaverModel.AutorizacijskiToken">
+              <MappingFragment StoreEntitySet="AutorizacijskiToken">
+                <ScalarProperty Name="AutorizacijskiTokenID" ColumnName="AutorizacijskiTokenID" />
+                <ScalarProperty Name="Vrijednost" ColumnName="Vrijednost" />
+                <ScalarProperty Name="VrijemeEvidentiranja" ColumnName="VrijemeEvidentiranja" />
+                <ScalarProperty Name="IpAdresa" ColumnName="IpAdresa" />
+                <ScalarProperty Name="DeviceInfo" ColumnName="DeviceInfo" />
+                <ScalarProperty Name="KorisnikID" ColumnName="KorisnikID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Korisnik">
+            <EntityTypeMapping TypeName="MoneySaverModel.Korisnik">
+              <MappingFragment StoreEntitySet="Korisnik">
+                <ScalarProperty Name="KorisnikID" ColumnName="KorisnikID" />
+                <ScalarProperty Name="KorisnickoIme" ColumnName="KorisnickoIme" />
+                <ScalarProperty Name="LozinkaSalt" ColumnName="LozinkaSalt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trosak">
+            <EntityTypeMapping TypeName="MoneySaverModel.Trosak">
+              <MappingFragment StoreEntitySet="Trosak">
+                <ScalarProperty Name="TrosakID" ColumnName="TrosakID" />
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="Iznos" ColumnName="Iznos" />
+                <ScalarProperty Name="AktivnostID" ColumnName="AktivnostID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
